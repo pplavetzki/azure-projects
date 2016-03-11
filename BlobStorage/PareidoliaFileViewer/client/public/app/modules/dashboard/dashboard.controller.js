@@ -6,9 +6,9 @@
 var dashboardModule = require('./index');
 var Dashboard = Dashboard;
 
-Dashboard.$inject = ['$state', 'commonDataService'];
+Dashboard.$inject = ['$state'];
 
-function Dashboard ($state, commonDataService) {
+function Dashboard ($state) {
     var vm = this;
     
     /*  
