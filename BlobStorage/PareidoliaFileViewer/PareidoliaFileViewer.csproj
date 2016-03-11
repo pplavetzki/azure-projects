@@ -96,6 +96,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Content Include="client\package.json" />
+    <Content Include="package.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -104,12 +106,32 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="client\public\app\index.js" />
+    <Content Include="client\public\app\modules\core\404.html" />
+    <Content Include="client\public\app\modules\core\constants.js" />
+    <Content Include="client\public\app\modules\core\core.routes.js" />
+    <Content Include="client\public\app\modules\core\index.js" />
+    <Content Include="client\public\app\modules\core\route-helper.provider.js" />
+    <Content Include="client\public\app\modules\dashboard\dashboard.controller.js" />
+    <Content Include="client\public\app\modules\dashboard\dashboard.html" />
+    <Content Include="client\public\app\modules\dashboard\dashboard.routes.js" />
+    <Content Include="client\public\app\modules\dashboard\greetings.controller.js" />
+    <Content Include="client\public\app\modules\dashboard\greetings.html" />
+    <Content Include="client\public\app\modules\dashboard\index.js" />
+    <Content Include="client\public\app\modules\layout\index.js" />
+    <Content Include="client\public\app\modules\layout\layout.routes.js" />
+    <Content Include="client\public\app\modules\layout\shell.controller.js" />
+    <Content Include="client\public\app\modules\layout\shell.html" />
+    <Content Include="client\public\app\modules\layout\top-navi.html" />
+    <Content Include="gulpfile.js" />
+    <Content Include="index.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
