@@ -125,10 +125,23 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="client\public\app\modules\directives\index.js" />
+    <Content Include="client\public\app\modules\directives\pssFileUploader.js" />
+    <Content Include="client\public\app\stylesheets\bootstrap.css" />
+    <Content Include="client\public\app\stylesheets\demo.css" />
+    <Content Include="client\public\app\stylesheets\font-awesome.css" />
+    <Content Include="client\public\app\stylesheets\invoice.css" />
+    <Content Include="client\public\app\stylesheets\lockscreen.css" />
+    <Content Include="client\public\app\stylesheets\smartadmin-production-plugins.css" />
+    <Content Include="client\public\app\stylesheets\smartadmin-production.css" />
+    <Content Include="client\public\app\stylesheets\smartadmin-rtl.css" />
+    <Content Include="client\public\app\stylesheets\smartadmin-skins.css" />
+    <Content Include="client\public\app\stylesheets\stylesheet.css" />
     <Content Include="Global.asax" />
     <Content Include="packages.config" />
     <Content Include="client\package.json" />
     <Content Include="package.json" />
+    <Content Include="client\public\app\stylesheets\bootstrap.css.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
