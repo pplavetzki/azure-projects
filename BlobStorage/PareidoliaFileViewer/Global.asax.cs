@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -12,7 +13,9 @@ namespace PareidoliaFileViewer
 
         protected void Application_Start(object sender, EventArgs e)
         {
+            UnityConfig.RegisterComponents();
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            StorageConfig.Configure(ConfigurationManager.ConnectionStrings["StorageConnectionString"].ConnectionString).Wait();
         }
 
         protected void Session_Start(object sender, EventArgs e)

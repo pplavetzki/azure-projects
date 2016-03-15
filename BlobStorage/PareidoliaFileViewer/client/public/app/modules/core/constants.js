@@ -5,9 +5,12 @@ var Constants = constants;
 
 function constants() {
 
+    var appBaseUrl = 'http://localhost:55328/';
+    var apiBaseUrl = appBaseUrl + "api/";
+
     return {
-        appBaseUrl: 'http://localhost:52286/',
-        apiBaseUrl: 'http://localhost:52286/api/'
+        appBaseUrl: appBaseUrl,
+        apiBaseUrl: apiBaseUrl
     };
 
 }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using PareidoliaFileViewer.Models;
+using PareidoliaFileViewer.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,15 +10,56 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace PareidoliaFileViewer.Controllers
-{
+{ 
     [RoutePrefix("api/file")]
     public class FileController : ApiController
     {
+        private readonly ISASTokenProvider _sasTokenProvider;
+
+        public FileController(ISASTokenProvider sasTokenProvider)
+        {
+            _sasTokenProvider = sasTokenProvider;
+        }
+
+        [HttpGet]
+        [ResponseType(typeof(SASResponse))]
+        [Route("SASToken")]
+        public IHttpActionResult GetSASToken(string fileName)
+        {
+            var extension = fileName.Split('.');
+            Regex rg = new Regex(@"^[a-zA-Z0-9]{1,3}$");
+
+            if (extension.Count() != 2 || !rg.IsMatch(extension[1]))
+            {
+                throw new HttpResponseException(System.Net.HttpStatusCode.BadRequest);
+            }
+
+            var storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["StorageConnectionString"].ConnectionString);
+            var blobClient = storageAccount.CreateCloudBlobClient();
+
+            var container = blobClient.GetContainerReference("files");
+            
+            var id = Guid.NewGuid().ToString();
+            var newFileName = id + "." + extension[1];
+
+            var blob = container.GetBlockBlobReference(newFileName);
+
+            var response = new SASResponse();
+            response.SASToken = _sasTokenProvider.GetSASToken(container);
+            response.BlobUrl = blob.Uri.AbsoluteUri;
+            response.Id = id;
+            response.FileName = newFileName;
+
+            return Ok(response);
+        }
+
         // GET: api/File
         public IEnumerable<string> Get()
         {
