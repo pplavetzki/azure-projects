@@ -11,39 +11,24 @@ Dashboard.$inject = ['$scope', '$state', '$http'];
 function Dashboard ($scope, $state, $http) {
     var vm = this;
 
+    vm.fileToUpload = undefined;
+
     function uploadFile() {
-        var f = document.getElementById('file').files[0],
-            r = new FileReader();
-            r.onloadend = function (e) {
-                var fd = new FormData();
-                console.log(e.target.result);
-                fd.append('file', e.target.result);
-                //var data = e.target.result;
-                //$http({
-                //    method: 'POST',
-                //    headers: { 'Content-Type': undefined },
-                //    data: new Uint8Array(data),
-                //    transformRequest: [],
-                //    url: 'http://localhost:55328/api/file'
-                //})
-                //send you binary data via $http or $resource or do anything else with it
-                $http.post("http://localhost:55328/api/file", fd, {
-                    transformRequest: angular.identity,
-                    headers: { 'Content-Type': undefined }
-                })
-                .success(function () {
-                    console.log("posted");
-                })
-                .error(function () {
-                    console.log("error");
-                });
-            }
-            r.readAsDataURL(f);
+        var fd = new FormData();
+        fd.append('file', vm.fileToUpload);
+        $http.post('http://localhost:55328/api/file', fd, {
+            transformRequest: angular.identity,
+            headers: { 'Content-Type': undefined }
+        })
+        .success(function () {
+        })
+        .error(function () {
+        });
     }
     
     vm.upload = uploadFile;
-    vm.cancel = function (e) {
-        console.log(e);
+    vm.cancel = function () {
+        console.log(vm.fileToUpload);
     };
     /*  
     commonDataService.getValues().then(function (data) {

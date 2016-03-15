@@ -68,7 +68,7 @@ namespace PareidoliaFileViewer.Controllers
                 foreach (var file in provider.FileData)
                 {
                     var fileName = Path.GetFileName(file.Headers.ContentDisposition.FileName.Trim('"'));
-                    var blob = container.GetBlockBlobReference(file.LocalFileName);
+                    var blob = container.GetBlockBlobReference(fileName);
 
                     // Set the blob content type
                     blob.Properties.ContentType = file.Headers.ContentType.MediaType;
