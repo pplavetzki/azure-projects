@@ -12,18 +12,20 @@ function Dashboard ($window, $scope, $state, $http, azureBlob, constants) {
     var vm = this;
 
     vm.fileToUpload = undefined;
+    vm.files = undefined;
+
+    function activate() {
+        $http.get(constants.apiBaseUrl + 'file')
+            .success(function (results) {
+                vm.files = results;
+            })
+            .error(function () {
+
+            });
+    }
 
     function uploadFile() {
-        //var fd = new FormData();
-        //fd.append('file', vm.fileToUpload);
-        //$http.post(constants.apiBaseUrl + 'file', fd, {
-        //    transformRequest: angular.identity,
-        //    headers: { 'Content-Type': undefined }
-        //})
-        //.success(function () {
-        //})
-        //.error(function () {
-        //});
+        vm.files.push({fileName:vm.fileToUpload.name});
         $http.get(constants.apiBaseUrl + 'file/SASToken?fileName=' + $window.encodeURIComponent(vm.fileToUpload.name))
         .success(function (results) {
             console.log(results);
@@ -41,6 +43,18 @@ function Dashboard ($window, $scope, $state, $http, azureBlob, constants) {
                     },
                     complete: function () {
                         console.log("Completed!");
+                        var image = {
+                            id: results.id,
+                            blobUrl: results.blobUrl,
+                            fileName: vm.fileToUpload.name,
+                            thumbnailUrl:null
+                        };
+                        $http.post(constants.apiBaseUrl + 'file', image)
+                        .success(function (data) {
+                            console.log(data);
+                        })
+                        .error(function () {
+                        });
                     },
                     error: function (data, status, err, config) {
                         console.log("Error - " + data);
@@ -58,16 +72,8 @@ function Dashboard ($window, $scope, $state, $http, azureBlob, constants) {
     vm.cancel = function () {
         console.log($window.encodeURIComponent(vm.fileToUpload.name));
     };
-    /*  
-    commonDataService.getValues().then(function (data) {
-        vm.data = data;
-    });
-    
 
-    commonDataService.getValue(1).then(function (data) {
-        vm.datum = data;
-    });
-    */
+    activate();
 
     vm.gotoAnalysis = function() {
         $state.go('app.workflow');

@@ -22,10 +22,12 @@ namespace PareidoliaFileViewer.Controllers
     public class FileController : ApiController
     {
         private readonly ISASTokenProvider _sasTokenProvider;
+        private IRedisProvider _redisProvider;
 
-        public FileController(ISASTokenProvider sasTokenProvider)
+        public FileController(ISASTokenProvider sasTokenProvider, IRedisProvider redisProvider)
         {
             _sasTokenProvider = sasTokenProvider;
+            _redisProvider = redisProvider;
         }
 
         [HttpGet]
@@ -45,6 +47,10 @@ namespace PareidoliaFileViewer.Controllers
             var blobClient = storageAccount.CreateCloudBlobClient();
 
             var container = blobClient.GetContainerReference("files");
+            if(!container.Exists())
+            {
+                container.Create();
+            }
             
             var id = Guid.NewGuid().ToString();
             var newFileName = id + "." + extension[1];
@@ -61,21 +67,12 @@ namespace PareidoliaFileViewer.Controllers
         }
 
         // GET: api/File
-        public IEnumerable<string> Get()
+        [HttpGet]
+        public async Task<IHttpActionResult> Get()
         {
-            List<string> blobs = new List<string>();
+            var images = await _redisProvider.GetImages();
 
-            var storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["StorageConnectionString"].ConnectionString);
-            var blobClient = storageAccount.CreateCloudBlobClient();
-
-            var container = blobClient.GetContainerReference("files");
-            foreach(var item in container.ListBlobs(null, false))
-            {
-                var blob = (CloudBlockBlob)item;
-                blobs.Add(blob.Uri.AbsolutePath);
-            }
-
-            return blobs.ToArray();
+            return Ok(images);
         }
 
         // GET: api/File/5
@@ -86,45 +83,12 @@ namespace PareidoliaFileViewer.Controllers
 
         // POST: api/File
         [HttpPost]
-        public async Task<IHttpActionResult> Post()
+        public async Task<IHttpActionResult> Post(Image image)
         {
-            // Check if the request contains multipart/form-data.
-            if (!Request.Content.IsMimeMultipartContent())
-            {
-                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
-            }
-
-            string root = HttpContext.Current.Server.MapPath("~/App_Data");
-            var provider = new MultipartFormDataStreamProvider(root);
-
-            var storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["StorageConnectionString"].ConnectionString);
-            var blobClient = storageAccount.CreateCloudBlobClient();
-
-            var container = blobClient.GetContainerReference("files");
-
             try
             {
-                // Read the form data.
-                await Request.Content.ReadAsMultipartAsync(provider);
+                await _redisProvider.AddToImages(image);
 
-                // This illustrates how to get the file names.
-                foreach (var file in provider.FileData)
-                {
-                    var fileName = Path.GetFileName(file.Headers.ContentDisposition.FileName.Trim('"'));
-                    var blob = container.GetBlockBlobReference(fileName);
-
-                    // Set the blob content type
-                    blob.Properties.ContentType = file.Headers.ContentType.MediaType;
-
-                    // Upload file into blob storage, basically copying it from local disk into Azure
-                    using (var fs = File.OpenRead(file.LocalFileName))
-                    {
-                        blob.UploadFromStream(fs);
-                    }
-
-                    // Delete local file from disk
-                    File.Delete(file.LocalFileName);
-                }
                 return Ok();
             }
             catch (System.Exception e)
