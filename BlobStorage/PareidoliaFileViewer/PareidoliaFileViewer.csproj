@@ -222,19 +222,21 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Image.cs" />
-    <Compile Include="Models\SASResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Implementation\QueueProvider.cs" />
-    <Compile Include="Services\Implementation\RedisProvider.cs" />
-    <Compile Include="Services\Implementation\SASTokenProvider.cs" />
-    <Compile Include="Services\Interfaces\IQueueProvider.cs" />
-    <Compile Include="Services\Interfaces\IRedisProvider.cs" />
-    <Compile Include="Services\Interfaces\ISASTokenProvider.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PareidoliaFileViewer.Models\PareidoliaFileViewer.Models.csproj">
+      <Project>{cc191116-a61c-4b33-89f3-c1f2ab1c9a1d}</Project>
+      <Name>PareidoliaFileViewer.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PareidoliaFileViewer.Services\PareidoliaFileViewer.Services.csproj">
+      <Project>{1b2a461e-6945-4477-8a50-e1bd5f5217e0}</Project>
+      <Name>PareidoliaFileViewer.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

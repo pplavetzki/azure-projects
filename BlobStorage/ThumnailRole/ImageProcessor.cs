@@ -40,7 +40,7 @@ namespace ThumnailRole
                         thumbBlob.UploadFromByteArray(imageArray, 0, imageArray.Length);
                     }
                 }
-
+                
                 return thumbnailName;
             });
         }

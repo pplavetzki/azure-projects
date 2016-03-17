@@ -9,6 +9,10 @@ Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "PareidoliaThumbnailMaker", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumnailRole", "ThumnailRole\ThumnailRole.csproj", "{77A8F0A2-1952-4717-96A7-99C34B4AB594}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PareidoliaFileViewer.Services", "PareidoliaFileViewer.Services\PareidoliaFileViewer.Services.csproj", "{1B2A461E-6945-4477-8A50-E1BD5F5217E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PareidoliaFileViewer.Models", "PareidoliaFileViewer.Models\PareidoliaFileViewer.Models.csproj", "{CC191116-A61C-4B33-89F3-C1F2AB1C9A1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{77A8F0A2-1952-4717-96A7-99C34B4AB594}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77A8F0A2-1952-4717-96A7-99C34B4AB594}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77A8F0A2-1952-4717-96A7-99C34B4AB594}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B2A461E-6945-4477-8A50-E1BD5F5217E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B2A461E-6945-4477-8A50-E1BD5F5217E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B2A461E-6945-4477-8A50-E1BD5F5217E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B2A461E-6945-4477-8A50-E1BD5F5217E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC191116-A61C-4B33-89F3-C1F2AB1C9A1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC191116-A61C-4B33-89F3-C1F2AB1C9A1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC191116-A61C-4B33-89F3-C1F2AB1C9A1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC191116-A61C-4B33-89F3-C1F2AB1C9A1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
