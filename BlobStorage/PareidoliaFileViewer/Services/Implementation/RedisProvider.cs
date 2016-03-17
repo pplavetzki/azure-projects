@@ -19,6 +19,21 @@ namespace PareidoliaFileViewer.Services.Implementation
             _redis = redis;
         }
 
+        public async Task<string> GetThumbnailImageUrl(string fileName)
+        {
+            var image = await GetImage(fileName);
+
+            return image.ThumbnailUrl;
+        }
+
+        public async Task AddImage(Image image)
+        {
+            var database = _redis.GetDatabase();
+            string imageJson = await Task.Run(() => JsonConvert.SerializeObject(image));
+
+            await database.StringSetAsync(image.Id, imageJson);
+        }
+
         public async Task AddToImages(Image image)
         {
             var database = _redis.GetDatabase();
@@ -40,6 +55,22 @@ namespace PareidoliaFileViewer.Services.Implementation
             }
 
             return images;
+        }
+
+        public async Task<Image> GetImage(string fileName)
+        {
+            var database = _redis.GetDatabase();
+            var image = JsonConvert.DeserializeObject<Image>(await database.StringGetAsync(fileName));
+
+            return image;
+        }
+
+        public async Task UpdateThumbnailImageUrl(string fileName, string thumbnailUrl)
+        {
+            var image = await GetImage(fileName);
+            image.ThumbnailUrl = thumbnailUrl;
+
+            await AddImage(image);
         }
     }
 }

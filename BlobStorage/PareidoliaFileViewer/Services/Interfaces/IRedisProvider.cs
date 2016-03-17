@@ -11,5 +11,9 @@ namespace PareidoliaFileViewer.Services.Interfaces
     {
         Task AddToImages(Image image);
         Task<IEnumerable<Image>> GetImages(long start = 0, long end = -1);
+        Task AddImage(Image image);
+        Task<string> GetThumbnailImageUrl(string fileName);
+        Task<Image> GetImage(string fileName);
+        Task UpdateThumbnailImageUrl(string fileName, string thumbnailUrl);
     }
 }
