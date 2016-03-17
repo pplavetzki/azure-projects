@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PareidoliaFileViewer", "PareidoliaFileViewer\PareidoliaFileViewer.csproj", "{319FCF00-426B-4BB2-B9A1-0C53810FFCCD}"
 EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "PareidoliaThumbnailMaker", "..\PareidoliaThumbnailMaker\PareidoliaThumbnailMaker.ccproj", "{FA1538D2-39AB-4FD3-8EE0-9612E4AFC07A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumnailRole", "ThumnailRole\ThumnailRole.csproj", "{77A8F0A2-1952-4717-96A7-99C34B4AB594}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{319FCF00-426B-4BB2-B9A1-0C53810FFCCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{319FCF00-426B-4BB2-B9A1-0C53810FFCCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{319FCF00-426B-4BB2-B9A1-0C53810FFCCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA1538D2-39AB-4FD3-8EE0-9612E4AFC07A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA1538D2-39AB-4FD3-8EE0-9612E4AFC07A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA1538D2-39AB-4FD3-8EE0-9612E4AFC07A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA1538D2-39AB-4FD3-8EE0-9612E4AFC07A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77A8F0A2-1952-4717-96A7-99C34B4AB594}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77A8F0A2-1952-4717-96A7-99C34B4AB594}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77A8F0A2-1952-4717-96A7-99C34B4AB594}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77A8F0A2-1952-4717-96A7-99C34B4AB594}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
