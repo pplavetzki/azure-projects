@@ -12,5 +12,6 @@ namespace PareidoliaFileViewer.Models
         public string BlobUrl { get; set; }
         public string FileName { get; set; }
         public string ThumbnailUrl { get; set; }
+        public string BlobName { get; set; }
     }
 }

@@ -23,11 +23,13 @@ namespace PareidoliaFileViewer.Controllers
     {
         private readonly ISASTokenProvider _sasTokenProvider;
         private IRedisProvider _redisProvider;
+        private readonly IQueueProvider _queueProvider;
 
-        public FileController(ISASTokenProvider sasTokenProvider, IRedisProvider redisProvider)
+        public FileController(ISASTokenProvider sasTokenProvider, IRedisProvider redisProvider, IQueueProvider queueProvider)
         {
             _sasTokenProvider = sasTokenProvider;
             _redisProvider = redisProvider;
+            _queueProvider = queueProvider;
         }
 
         [HttpGet]
@@ -62,7 +64,7 @@ namespace PareidoliaFileViewer.Controllers
             response.BlobUrl = blob.Uri.AbsoluteUri;
             response.Id = id;
             response.FileName = newFileName;
-
+           
             return Ok(response);
         }
 
@@ -88,6 +90,7 @@ namespace PareidoliaFileViewer.Controllers
             try
             {
                 await _redisProvider.AddToImages(image);
+                await _queueProvider.AddThumbMessage(image.BlobName);
 
                 return Ok();
             }

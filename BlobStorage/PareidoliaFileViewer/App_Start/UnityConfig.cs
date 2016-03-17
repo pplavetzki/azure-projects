@@ -25,6 +25,7 @@ namespace PareidoliaFileViewer
             // e.g. container.RegisterType<ITestService, TestService>();
             container.RegisterType<ISASTokenProvider, SASTokenProvider>();
             container.RegisterType<IRedisProvider, RedisProvider>();
+            container.RegisterType<IQueueProvider, QueueProvider>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

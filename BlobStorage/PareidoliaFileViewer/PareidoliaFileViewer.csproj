@@ -225,8 +225,10 @@
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\SASResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Implementation\QueueProvider.cs" />
     <Compile Include="Services\Implementation\RedisProvider.cs" />
     <Compile Include="Services\Implementation\SASTokenProvider.cs" />
+    <Compile Include="Services\Interfaces\IQueueProvider.cs" />
     <Compile Include="Services\Interfaces\IRedisProvider.cs" />
     <Compile Include="Services\Interfaces\ISASTokenProvider.cs" />
     <Compile Include="Startup.cs" />

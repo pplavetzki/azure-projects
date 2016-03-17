@@ -25,10 +25,8 @@ function Dashboard ($window, $scope, $state, $http, azureBlob, constants) {
     }
 
     function uploadFile() {
-        vm.files.push({fileName:vm.fileToUpload.name});
         $http.get(constants.apiBaseUrl + 'file/SASToken?fileName=' + $window.encodeURIComponent(vm.fileToUpload.name))
         .success(function (results) {
-            console.log(results);
             vm.config =
                 {
                     baseUrl: results.blobUrl,
@@ -47,6 +45,7 @@ function Dashboard ($window, $scope, $state, $http, azureBlob, constants) {
                             id: results.id,
                             blobUrl: results.blobUrl,
                             fileName: vm.fileToUpload.name,
+                            blobName: results.fileName,
                             thumbnailUrl:null
                         };
                         $http.post(constants.apiBaseUrl + 'file', image)
