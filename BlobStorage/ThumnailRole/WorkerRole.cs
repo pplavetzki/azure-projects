@@ -13,6 +13,9 @@ using Microsoft.WindowsAzure.Storage.Queue;
 using System.Configuration;
 using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage.Blob;
+using PareidoliaFileViewer.Services.Interfaces;
+using PareidoliaFileViewer.Services.Implementation;
+using StackExchange.Redis;
 
 namespace ThumnailRole
 {
@@ -20,6 +23,7 @@ namespace ThumnailRole
     {
         private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly ManualResetEvent runCompleteEvent = new ManualResetEvent(false);
+        private IRedisProvider _redisProvider;
 
         public override void Run()
         {
@@ -64,7 +68,10 @@ namespace ThumnailRole
             // Create the queue if it doesn't already exist
             queue.CreateIfNotExists();
 
-            
+            string redisConnection = CloudConfigurationManager.GetSetting("RedisConnectionString");
+
+            ConnectionMultiplexer connectionMult = ConnectionMultiplexer.Connect(redisConnection);
+            _redisProvider = new RedisProvider(connectionMult);
 
             return result;
         }
@@ -109,7 +116,7 @@ namespace ThumnailRole
                 foreach (CloudQueueMessage message in queue.GetMessages(10, TimeSpan.FromMinutes(5)))
                 {
                     Trace.TraceInformation(message.AsString);
-                    var thumbnailName = await ImageProcessor.CreateThumbnail(imagesContainer, thumbnailContainer, message.AsString);
+                    var thumbnailName = await ImageProcessor.CreateThumbnail(imagesContainer, thumbnailContainer, _redisProvider, message.AsString);
                     // Process all messages in less than 5 minutes, deleting each message after processing.
                     queue.DeleteMessage(message);
                 }

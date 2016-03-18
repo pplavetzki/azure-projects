@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ServiceConfiguration serviceName="PareidoliaThumbnailMaker" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2015-04.2.6">
-  <Role name="ThumnailRole">
+  <Role name="ThumbnailRole">
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="StorageConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="RedisConnectionString" value="10.211.55.65:6379" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

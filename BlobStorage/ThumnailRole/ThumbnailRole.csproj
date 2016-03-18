@@ -70,6 +70,10 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="StackExchange.Redis, Version=1.0.316.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.1.0.488\lib\net45\StackExchange.Redis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -92,6 +96,16 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PareidoliaFileViewer.Models\PareidoliaFileViewer.Models.csproj">
+      <Project>{cc191116-a61c-4b33-89f3-c1f2ab1c9a1d}</Project>
+      <Name>PareidoliaFileViewer.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PareidoliaFileViewer.Services\PareidoliaFileViewer.Services.csproj">
+      <Project>{1b2a461e-6945-4477-8a50-e1bd5f5217e0}</Project>
+      <Name>PareidoliaFileViewer.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

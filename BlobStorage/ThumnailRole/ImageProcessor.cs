@@ -1,5 +1,6 @@
 ﻿using ImageMagick;
 using Microsoft.WindowsAzure.Storage.Blob;
+using PareidoliaFileViewer.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +12,7 @@ namespace ThumnailRole
 {
     public class ImageProcessor
     {
-        public static Task<string> CreateThumbnail(CloudBlobContainer imgContainer, CloudBlobContainer thumbContainer, string imageName)
+        public static Task<string> CreateThumbnail(CloudBlobContainer imgContainer, CloudBlobContainer thumbContainer, IRedisProvider redis, string imageName)
         {
             return Task.Factory.StartNew<string>(() =>
             {
@@ -38,6 +39,8 @@ namespace ThumnailRole
                         
                         byte[] imageArray = image.ToByteArray(MagickFormat.Jpg);
                         thumbBlob.UploadFromByteArray(imageArray, 0, imageArray.Length);
+
+                        redis.UpdateThumbnailImageUrl(imageName, thumbBlob.Uri.AbsoluteUri);
                     }
                 }
                 

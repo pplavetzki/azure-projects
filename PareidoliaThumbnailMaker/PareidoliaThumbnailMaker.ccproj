@@ -37,20 +37,19 @@
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BlobStorage\ThumnailRole\ThumnailRole.csproj">
-      <Name>ThumnailRole</Name>
+    <Folder Include="ThumbnailRoleContent" />
+  </ItemGroup>
+  <ItemGroup>
+    <DiagnosticsConfiguration Include="ThumbnailRoleContent\diagnostics.wadcfgx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BlobStorage\ThumnailRole\ThumbnailRole.csproj">
+      <Name>ThumbnailRole</Name>
       <Project>{77a8f0a2-1952-4717-96a7-99c34b4ab594}</Project>
       <Private>True</Private>
       <RoleType>Worker</RoleType>
-      <RoleName>ThumnailRole</RoleName>
-      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+      <RoleName>ThumbnailRole</RoleName>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ThumnailRoleContent\" />
-  </ItemGroup>
-  <ItemGroup>
-    <DiagnosticsConfiguration Include="ThumnailRoleContent\diagnostics.wadcfgx" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>

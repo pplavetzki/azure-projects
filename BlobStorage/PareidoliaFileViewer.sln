@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PareidoliaFileViewer", "Par
 EndProject
 Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "PareidoliaThumbnailMaker", "..\PareidoliaThumbnailMaker\PareidoliaThumbnailMaker.ccproj", "{FA1538D2-39AB-4FD3-8EE0-9612E4AFC07A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumnailRole", "ThumnailRole\ThumnailRole.csproj", "{77A8F0A2-1952-4717-96A7-99C34B4AB594}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbnailRole", "ThumnailRole\ThumbnailRole.csproj", "{77A8F0A2-1952-4717-96A7-99C34B4AB594}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PareidoliaFileViewer.Services", "PareidoliaFileViewer.Services\PareidoliaFileViewer.Services.csproj", "{1B2A461E-6945-4477-8A50-E1BD5F5217E0}"
 EndProject

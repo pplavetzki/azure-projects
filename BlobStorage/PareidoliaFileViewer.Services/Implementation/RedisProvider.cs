@@ -31,7 +31,7 @@ namespace PareidoliaFileViewer.Services.Implementation
             var database = _redis.GetDatabase();
             string imageJson = await Task.Run(() => JsonConvert.SerializeObject(image));
 
-            await database.StringSetAsync(image.Id, imageJson);
+            await database.StringSetAsync("image:" + image.Id, imageJson);
         }
 
         public async Task AddToImages(Image image)
@@ -39,7 +39,10 @@ namespace PareidoliaFileViewer.Services.Implementation
             var database = _redis.GetDatabase();
             string imageJson = await Task.Run(() => JsonConvert.SerializeObject(image));
 
-            await database.ListLeftPushAsync("images", imageJson);
+            var length = await database.ListRightPushAsync("images", imageJson);
+            var index = --length;
+
+            await database.StringSetAsync("index:" + image.Id, index);
         }
 
         public async Task<IEnumerable<Image>> GetImages(long start, long end)
@@ -59,18 +62,27 @@ namespace PareidoliaFileViewer.Services.Implementation
 
         public async Task<Image> GetImage(string fileName)
         {
+            var id = fileName.Split('.')[0];
+
             var database = _redis.GetDatabase();
-            var image = JsonConvert.DeserializeObject<Image>(await database.StringGetAsync(fileName));
+            var image = JsonConvert.DeserializeObject<Image>(await database.StringGetAsync("image:" + id));
 
             return image;
         }
 
         public async Task UpdateThumbnailImageUrl(string fileName, string thumbnailUrl)
         {
+            var database = _redis.GetDatabase();
+
             var image = await GetImage(fileName);
             image.ThumbnailUrl = thumbnailUrl;
 
+            string imageJson = await Task.Run(() => JsonConvert.SerializeObject(image));
+
             await AddImage(image);
+
+            var index = await database.StringGetAsync("index:" + image.Id);
+            await database.ListSetByIndexAsync("images", Convert.ToInt64(index), imageJson);
         }
     }
 }

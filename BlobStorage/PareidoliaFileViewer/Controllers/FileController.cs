@@ -89,6 +89,7 @@ namespace PareidoliaFileViewer.Controllers
         {
             try
             {
+                await _redisProvider.AddImage(image);
                 await _redisProvider.AddToImages(image);
                 await _queueProvider.AddThumbMessage(image.BlobName);
 
