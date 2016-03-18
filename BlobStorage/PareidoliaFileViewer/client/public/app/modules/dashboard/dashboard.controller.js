@@ -6,13 +6,41 @@
 var dashboardModule = require('./index');
 var Dashboard = Dashboard;
 
-Dashboard.$inject = ['$window', '$scope', '$state', '$http', 'AzureBlob', 'constants'];
+Dashboard.$inject = ['$window', '$scope', '$state', '$http', '$interval', 'AzureBlob', 'constants'];
 
-function Dashboard ($window, $scope, $state, $http, azureBlob, constants) {
+function Dashboard ($window, $scope, $state, $http, $interval, azureBlob, constants) {
     var vm = this;
+
+    var thumbnailIntervals = [];
+    var intervalCount = 0;
 
     vm.fileToUpload = undefined;
     vm.files = undefined;
+
+    function destroy() {
+        console.log("Destroyed!");
+    }
+
+    $scope.$on('$destroy', destroy);
+
+    function getThumbnailUrl(imageId, count) {
+        $http.get(constants.apiBaseUrl + 'file/GetThumbnailUrl/' + imageId)
+            .success(function (thumbnailUrl) {
+                console.log(thumbnailUrl);
+                if (thumbnailUrl) {
+                    stopInterval(count);
+                    vm.files[(vm.files.length - 1)].thumbnailUrl = thumbnailUrl;
+                }
+            })
+            .error(function () {
+
+            });
+    }
+
+    function stopInterval(index) {
+        $interval.cancel(thumbnailIntervals[index]);
+        thumbnailIntervals.pop();
+    }
 
     function activate() {
         $http.get(constants.apiBaseUrl + 'file')
@@ -27,6 +55,7 @@ function Dashboard ($window, $scope, $state, $http, azureBlob, constants) {
     function uploadFile() {
         $http.get(constants.apiBaseUrl + 'file/SASToken?fileName=' + $window.encodeURIComponent(vm.fileToUpload.name))
         .success(function (results) {
+            vm.files.push({ thumbnailUrl: '', blobUrl: results.blobUrl, fileName: vm.fileToUpload.name });
             vm.config =
                 {
                     baseUrl: results.blobUrl,
@@ -40,7 +69,6 @@ function Dashboard ($window, $scope, $state, $http, azureBlob, constants) {
                         console.log(amount);
                     },
                     complete: function () {
-                        console.log("Completed!");
                         var image = {
                             id: results.id,
                             blobUrl: results.blobUrl,
@@ -50,7 +78,7 @@ function Dashboard ($window, $scope, $state, $http, azureBlob, constants) {
                         };
                         $http.post(constants.apiBaseUrl + 'file', image)
                         .success(function (data) {
-                            console.log(data);
+                            thumbnailIntervals.push($interval(getThumbnailUrl, 1000, 10, null, results.id, intervalCount++));
                         })
                         .error(function () {
                         });

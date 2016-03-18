@@ -83,6 +83,16 @@ namespace PareidoliaFileViewer.Controllers
             return "value";
         }
 
+        [HttpGet]
+        [ResponseType(typeof(string))]
+        [Route("GetThumbnailUrl/{id}")]
+        public async Task<IHttpActionResult> GetThumbnailUrl(string id)
+        {
+            string url = await _redisProvider.GetThumbnailImageUrl(id);
+
+            return Ok(url);
+        }
+
         // POST: api/File
         [HttpPost]
         public async Task<IHttpActionResult> Post(Image image)
