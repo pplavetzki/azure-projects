@@ -16,6 +16,7 @@ function Dashboard ($window, $scope, $state, $http, $interval, azureBlob, consta
 
     vm.fileToUpload = undefined;
     vm.files = undefined;
+    vm.bool = false;
 
     function destroy() {
         console.log("Destroyed!");
@@ -46,6 +47,7 @@ function Dashboard ($window, $scope, $state, $http, $interval, azureBlob, consta
         $http.get(constants.apiBaseUrl + 'file')
             .success(function (results) {
                 vm.files = results;
+                vm.bool = true;
             })
             .error(function () {
 

@@ -1,6 +1,8 @@
 ﻿'use strict';
 
 var angular = require('angular');
+require('angular-animate');
+
 
 require('./modules/core');
 require('./modules/layout');
@@ -15,6 +17,7 @@ angular
                         'app.layout',
                         'app.dashboard',
                         'app.directives',
-                        'app.widgets'
+                        'app.widgets',
+                        'ngAnimate'
         ])
         .run(setup);
