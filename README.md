@@ -16,6 +16,7 @@ On the Server I'm using:
 1.  C# Asp.Net 4.6.1
 2.  Web API 2.2
 3.  Unity Dependency Injection
+4.  Magick.NET
 
 Azure Tools:
 
@@ -24,5 +25,5 @@ Azure Tools:
 3.  Azure Blob Storage
 4.  Azure Messaging Queue
 5.  Redis Cache
-6.  Shared Access Security
+6.  Shared Access Signatures
 
