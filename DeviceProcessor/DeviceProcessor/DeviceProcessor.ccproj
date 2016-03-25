@@ -12,6 +12,7 @@
     <AssemblyName>DeviceProcessor</AssemblyName>
     <StartDevelopmentStorage>True</StartDevelopmentStorage>
     <Name>DeviceProcessor</Name>
+    <PackageEnableRemoteDebugger>False</PackageEnableRemoteDebugger>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,12 +46,22 @@
       <RoleName>EventProcessor</RoleName>
       <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
+    <ProjectReference Include="..\ProcessQueueRole\ProcessQueueRole.csproj">
+      <Name>ProcessQueueRole</Name>
+      <Project>{48e9e9ba-7d60-47b5-9578-93dadf917398}</Project>
+      <Private>True</Private>
+      <RoleType>Worker</RoleType>
+      <RoleName>ProcessQueueRole</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventProcessorContent\" />
+    <Folder Include="ProcessQueueRoleContent\" />
   </ItemGroup>
   <ItemGroup>
     <DiagnosticsConfiguration Include="EventProcessorContent\diagnostics.wadcfgx" />
+    <DiagnosticsConfiguration Include="ProcessQueueRoleContent\diagnostics.wadcfgx" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>
