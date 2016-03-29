@@ -10,6 +10,7 @@ using Microsoft.ServiceBus.Messaging;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace EventProcessor
 {
@@ -30,7 +31,7 @@ namespace EventProcessor
         private Stopwatch stopwatch;
         private TimeSpan MAX_CHECKPOINT_TIME = TimeSpan.FromMinutes(5);
 
-        private decimal MaxWindSpeed = 12.0M;
+        private double MaxWindSpeed = 14.0D;
 
         public StoreEventProcessor()
         {
@@ -66,8 +67,8 @@ namespace EventProcessor
         {
             foreach (EventData eventData in messages)
             {
-                byte[] data = eventData.GetBytes();
-                string messageData = Encoding.UTF8.GetString(data, 0, data.Length);
+                byte[] telemetryData = eventData.GetBytes();
+                string messageData = Encoding.UTF8.GetString(telemetryData, 0, telemetryData.Length);
                 TelemetryData message = null;
 
                 if (!string.IsNullOrEmpty(messageData))
@@ -84,8 +85,12 @@ namespace EventProcessor
                     MaxWindSpeed = message.WindSpeed;
 
                     var messageId = (string)eventData.SystemProperties["message-id"];
+                    //Sending as json data
+                    var queueMessage = new BrokeredMessage(messageData);
 
-                    var queueMessage = new BrokeredMessage(new MemoryStream(data));
+                    queueMessage.ContentType = "application/json";
+                    queueMessage.Label = messageData.GetType().ToString();
+
                     queueMessage.MessageId = messageId;
                     queueMessage.Properties["messageType"] = "annoucement";
 
@@ -93,16 +98,27 @@ namespace EventProcessor
                     Trace.TraceInformation("New Max Wind Speed achieved!: {0}", message.WindSpeed);
                 }
                 
-                if (toAppend.Length + data.Length > MAX_BLOCK_SIZE || stopwatch.Elapsed > MAX_CHECKPOINT_TIME)
+                if (toAppend.Length + telemetryData.Length > MAX_BLOCK_SIZE || stopwatch.Elapsed > MAX_CHECKPOINT_TIME)
                 {
                     await AppendAndCheckpoint(context);
                 }
-                await toAppend.WriteAsync(data, 0, data.Length);
+                await toAppend.WriteAsync(telemetryData, 0, telemetryData.Length);
 
-                Trace.TraceInformation(string.Format("Message received.  Partition: '{0}', Data: '{1}'", context.Lease.PartitionId, Encoding.UTF8.GetString(data)));
+                Trace.TraceInformation(string.Format("Message received.  Partition: '{0}', Data: '{1}'", context.Lease.PartitionId, Encoding.UTF8.GetString(telemetryData)));
             }
          
             await context.CheckpointAsync();
+        }
+
+        // Convert an object to a byte array
+        private byte[] TelemetryToByteArray(object telemData)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            using (var ms = new MemoryStream())
+            {
+                bf.Serialize(ms, telemData);
+                return ms.ToArray();
+            }
         }
 
         private async Task AppendAndCheckpoint(PartitionContext context)

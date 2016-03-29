@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace EventProcessor
 {
+    [Serializable()]
     public class TelemetryData
     {
         public string DeviceId { get; set; }
-        public decimal WindSpeed { get; set; }
+        public double WindSpeed { get; set; }
     }
 }

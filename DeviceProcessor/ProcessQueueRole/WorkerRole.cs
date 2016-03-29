@@ -10,6 +10,8 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using System.Configuration;
 using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ProcessQueueRole
 {
@@ -26,23 +28,31 @@ namespace ProcessQueueRole
         public override void Run()
         {
             Trace.WriteLine("Starting processing of messages");
+            var options = new OnMessageOptions()
+            {
+                AutoComplete = false,
+                MaxConcurrentCalls = 1
+            };
 
             // Initiates the message pump and callback is invoked for each message that is received, calling close on the client will stop the pump.
             Client.OnMessage((receivedMessage) =>
                 {
                     try
                     {
-                        Stream stream = receivedMessage.GetBody<Stream>();
-                        StreamReader reader = new StreamReader(stream);
-                        string s = reader.ReadToEnd();
-                        Trace.WriteLine(s);
+                        string stringData = receivedMessage.GetBody<string>();
+                        var telemetryData = JObject.Parse(stringData);
+                        
+                        Trace.WriteLine(telemetryData.Property("windSpeed").Value);
                         Trace.WriteLine("Processing Service Bus message: " + receivedMessage.SequenceNumber.ToString());
+
+                        receivedMessage.Complete();
                     }
-                    catch
+                    catch(Exception ex)
                     {
                         // Handle any message processing specific exceptions here
+                        Trace.TraceError("THIS IS AN EXCEPTION: " + ex.Message);
                     }
-                });
+                }, options);
 
             CompletedEvent.WaitOne();
         }
